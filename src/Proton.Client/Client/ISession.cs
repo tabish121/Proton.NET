@@ -91,6 +91,34 @@ namespace Apache.Qpid.Proton.Client
       Task<IReceiver> OpenReceiverAsync(string address, ReceiverOptions options = null);
 
       /// <summary>
+      /// Creates an async receiver used to consume messages from the given node address.
+      /// The returned receiver will be configured using the provided receiver options.
+      ///
+      /// The returned receiver may not have been opened on the remote when it is returned.  Some
+      /// methods of the receiver can block until the remote fully opens the receiver, the user can
+      /// wait for the remote to respond to the open request by obtaining the open task from the
+      /// receiver and using it to await the completion of the receiver open.
+      /// </summary>
+      /// <param name="address">The address of the node the receiver attaches to</param>
+      /// <param name="options">Optional receiver options to use for configuration</param>
+      /// <returns>A new receiver instance</returns>
+      IAsyncReceiver OpenAsyncReceiver(string address, AsyncReceiverOptions options = null);
+
+      /// <summary>
+      /// Asynchronously creates an async receiver used to consume messages from the given node
+      /// address. The returned receiver will be configured using the provided receiver options.
+      ///
+      /// The returned receiver may not have been opened on the remote when it is returned. Some
+      /// methods of the receiver can block until the remote fully opens the receiver, the user can
+      /// wait for the remote to respond to the open request by obtaining the open task from the
+      /// receiver and using it to await the completion of the receiver open.
+      /// </summary>
+      /// <param name="address">The address of the node the receiver attaches to</param>
+      /// <param name="options">Optional receiver options to use for configuration</param>
+      /// <returns>A Task that returns a new receiver instance when completed</returns>
+      Task<IAsyncReceiver> OpenAsyncReceiverAsync(string address, AsyncReceiverOptions options = null);
+
+      /// <summary>
       /// Creates a receiver used to consume messages from the given node address.  The
       /// returned receiver will be configured using the provided receiver options.
       ///

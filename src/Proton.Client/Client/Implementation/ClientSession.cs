@@ -202,6 +202,34 @@ namespace Apache.Qpid.Proton.Client.Implementation
          return createReceiver.Task;
       }
 
+      public virtual IAsyncReceiver OpenAsyncReceiver(string address, AsyncReceiverOptions options = null)
+      {
+         return OpenAsyncReceiverAsync(address, options).ConfigureAwait(false).GetAwaiter().GetResult();
+      }
+
+      public virtual Task<IAsyncReceiver> OpenAsyncReceiverAsync(string address, AsyncReceiverOptions options = null)
+      {
+         CheckClosedOrFailed();
+         Objects.RequireNonNull(address, "Cannot create a receiver with a null address");
+
+         TaskCompletionSource<IAsyncReceiver> createReceiver = new();
+
+         connection.Execute(() =>
+         {
+            try
+            {
+               CheckClosedOrFailed();
+               _ = createReceiver.TrySetResult(InternalOpenAsyncReceiver(address, options));
+            }
+            catch (Exception error)
+            {
+               _ = createReceiver.TrySetException(ClientExceptionSupport.CreateNonFatalOrPassthrough(error));
+            }
+         });
+
+         return createReceiver.Task;
+      }
+
       public virtual ISender OpenAnonymousSender(SenderOptions options = null)
       {
          return OpenAnonymousSenderAsync(options).ConfigureAwait(false).GetAwaiter().GetResult();
@@ -402,6 +430,11 @@ namespace Apache.Qpid.Proton.Client.Implementation
       internal ClientReceiver InternalOpenReceiver(string address, ReceiverOptions receiverOptions)
       {
          return receiverBuilder.Receiver(address, receiverOptions).Open();
+      }
+
+      internal ClientAsyncReceiver InternalOpenAsyncReceiver(string address, AsyncReceiverOptions receiverOptions)
+      {
+         return receiverBuilder.AsyncReceiver(address, receiverOptions).Open();
       }
 
       internal ClientStreamReceiver InternalOpenStreamReceiver(string address, StreamReceiverOptions receiverOptions)

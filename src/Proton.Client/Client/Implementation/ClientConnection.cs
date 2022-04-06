@@ -303,6 +303,33 @@ namespace Apache.Qpid.Proton.Client.Implementation
          return createReceiver.Task;
       }
 
+      public IAsyncReceiver OpenAsyncReceiver(string address, AsyncReceiverOptions options = null)
+      {
+         return OpenAsyncReceiverAsync(address, options).ConfigureAwait(false).GetAwaiter().GetResult();
+      }
+
+      public Task<IAsyncReceiver> OpenAsyncReceiverAsync(string address, AsyncReceiverOptions options = null)
+      {
+         CheckClosedOrFailed();
+         Objects.RequireNonNull(address, "Cannot create a receiver with a null address");
+         TaskCompletionSource<IAsyncReceiver> createReceiver = new();
+
+         Execute(() =>
+         {
+            try
+            {
+               CheckClosedOrFailed();
+               createReceiver.TrySetResult(LazyCreateConnectionSession().InternalOpenAsyncReceiver(address, options));
+            }
+            catch (Exception error)
+            {
+               createReceiver.TrySetException(ClientExceptionSupport.CreateNonFatalOrPassthrough(error));
+            }
+         });
+
+         return createReceiver.Task;
+      }
+
       public ISender OpenAnonymousSender(SenderOptions options = null)
       {
          return OpenAnonymousSenderAsync(options).ConfigureAwait(false).GetAwaiter().GetResult();

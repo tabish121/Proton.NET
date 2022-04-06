@@ -46,6 +46,12 @@ namespace Apache.Qpid.Proton.Client.Implementation
          throw new ClientUnsupportedOperationException("Cannot create a receiver from a streaming resource session");
       }
 
+      public override IAsyncReceiver OpenAsyncReceiver(string address, AsyncReceiverOptions options = null)
+      {
+         CheckClosedOrFailed();
+         throw new ClientUnsupportedOperationException("Cannot create a receiver from a streaming resource session");
+      }
+
       public override ISender OpenSender(string address, SenderOptions options = null)
       {
          CheckClosedOrFailed();
@@ -71,6 +77,12 @@ namespace Apache.Qpid.Proton.Client.Implementation
       }
 
       public override Task<IReceiver> OpenReceiverAsync(string address, ReceiverOptions options = null)
+      {
+         CheckClosedOrFailed();
+         throw new ClientUnsupportedOperationException("Cannot create a receiver from a streaming resource session");
+      }
+
+      public override Task<IAsyncReceiver> OpenAsyncReceiverAsync(string address, AsyncReceiverOptions options = null)
       {
          CheckClosedOrFailed();
          throw new ClientUnsupportedOperationException("Cannot create a receiver from a streaming resource session");
