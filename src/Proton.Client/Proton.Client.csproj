@@ -16,6 +16,13 @@
 -->
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Apache.Qpid.Proton.Client</RootNamespace>
+    <AssemblyName>Apache.Qpid.Proton.Client</AssemblyName>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Proton\Proton.csproj" />
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
@@ -40,21 +47,15 @@
     <Copyright>Copyright (C) 2020-2022 Apache Software Foundation</Copyright>
     <PackageProjectUrl>https://qpid.apache.org/proton/</PackageProjectUrl>
     <PackageLicense>https://github.com/tabish121/Proton.NET/blob/main/LICENSE.txt</PackageLicense>
-    <PackageIconUrl>https://qpid.apache.org/assets/img/qpid_logo_icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/tabish121/Proton.NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>apache;qpid;proton;amqp;protocol;client;imperative</PackageTags>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../LICENSE" Pack="true" PackagePath="LICENSE" />
     <None Include="../../NOTICE" Pack="true" PackagePath="NOTICE" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
 
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
