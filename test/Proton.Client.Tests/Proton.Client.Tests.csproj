@@ -45,4 +45,9 @@
     <ProjectReference Include="..\..\src\Proton.Client\Proton.Client.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../../key\proton-dotnet.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
 </Project>
